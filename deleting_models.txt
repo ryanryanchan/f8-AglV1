@@ -1,0 +1,62 @@
+//
+// DELETING MODELS
+//
+
+
+// check if memory is too full
+// clear room so everything that's needed fits
+
+- make giant list (cpu_to_gpu + gpu_data)
+- sort giant list by importance
+- sort gpu_data by importance
+- merge giant list and gpu data until gpu ~95% full
+
+- we can just use merge sort on cpu_to_gpu and gpu_data 
+  with the stopping condition of the gpu being too full
+
+- for clarity, cpu_to_gpu is everything that we want to move,
+  but we may not necessarily have the room to do it. 
+
+- final_cpu_to_gpu: final list to return
+  guaranteed to not overload gpu. 
+
+- final_gpu_data: what I expect the gpu data to be after
+  both adding from cpu_to_gpu and deleting unneccesary gpu_data,
+  should those changes need to happen. 
+
+METHOD:
+- sort cpu_to_gpu by importance score
+- sort gpu_data by importance score
+- gpu_delete = gpu_data
+**note: all models not in model_list have score = 0
+
+int totalBytes = 0
+- merge cpu_to_gpu + gpu_data, returns final_gpu_data
+while(totalBytes > gpuBytes){
+	if(cpu_to_gpu[0].score > gpu_data[0].score){
+
+		- every time an item from cpu_to_gpu is added into final_gpu_data, 
+		  add into final_cpu_to_gpu.
+
+		final_gpu_data.append(cpu_to_gpu[0])
+		totalBytes += cpu_to_gpu[0].byteSize
+		final_cpu_to_gpu.append(cpu_to_gpu[0])
+		delete cpu_to_gpu[0]
+	}
+	else{
+
+		- every time an item from gpu_data gets added into final_gpu_data, 
+		  it means that it was already in the gpu and it is important enough to keep.
+		  delete this item from gpu_delete.
+
+		final_gpu_data.append(gpu_data[0])
+		totalBytes += gpu_data[0].byteSize
+		gpu_del.remove(gpu_data[0])
+		delete gpu_data[0] 
+	}
+
+}
+- if totalBytes > gpuBytes * .95, stop merge
+	- everything left in gpu_delete should be deleted
+	- if merge completes without hitting this if statement, 
+	  no data needed to be deleted
