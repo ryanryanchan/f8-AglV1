@@ -41,6 +41,6 @@ Because the actual angle is found with arctan, but this is applied to every inst
 - sum( size / distance)
 
 ### work in progress:
-[] figure out model size
-[] figure out model bytesize
-[] prepare for latitude, longitude, and altitude.
+- [ ] figure out model size
+- [ ] figure out model bytesize
+- [ ] prepare for latitude, longitude, and altitude.
