@@ -1,0 +1,33 @@
+AlgV1 extra information:
+
+algorithm.h: where the main algorithm is housed. 
+UserLibrary.h: my userapi library that pulls data from company server
+structs.h: my personal structs used to run the program
+calculations.h: math was needed for latitude and longitude in calculating distances and scores.
+
+global variables:
+	- GPU_MEM: how much memory gpu has
+	- CPU_MEM: how much memory cpu has
+	- CACHE_MEM: how much memory cache has
+	- modelList: map of <int modelID, model>. used for easy storage and retrieval of model info
+
+final_output AlgV1(int projectID, inputs in, double lat, double lng)
+	- project ID
+	- inputs in:
+		- std::vector<int> gpu_data;
+		- std::vector<int> cpu_data;
+		- std::vector<int> cache_data;
+	- final_output results:
+		- std::vector<int> cloud_to_cpu;
+		- std::vector<int> cache_to_cpu;
+		- std::vector<int> cpu_to_cache;
+		- std::vector<int> cpu_to_gpu;
+		- std::vector<int> cpu_delete;
+		- std::vector<int> gpu_delete;
+		- std::vector<int> cache_delete;
+
+simulation:
+	- decide what data you want in gpu/cpu/cache before starting
+	- while the inputs are not the same as the last iteration:
+		- run the algorithm
+		- take first item from every final_output and delete / move to specified next location
