@@ -2,6 +2,16 @@
 f8 resource management algorithm
 
 working on an algorithm to choose which models to download for the system application.
+Given a project ID, latitude, longitude and a list of current models in the machine (gpu, cpu, cache):
+decide what data needs to be moved/deleted from within the machine, and what data needs to be downloaded from the cloud.
+##### final output: (vector\<int\> model ID's)
+- cpu_to_gpu[]
+- gpu_delete[]
+- cloud_to_cpu[]
+- cache_to_cpu[]
+- cpu_delete[]
+- cpu_to_cache[]
+- cache_delete[]
 
 ### algorithm logic:
 - build startlist
