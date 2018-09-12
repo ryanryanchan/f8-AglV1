@@ -15,34 +15,34 @@ decide what data needs to be moved/deleted from within the machine, and what dat
 
 ### algorithm logic:
 1. build startlist
-  - parse all instances into list of structs
+   - parse all instances into list of structs
 2. create modelList
-  - get list of models from instances, calculate full score of each model
+   - get list of models from instances, calculate full score of each model
 3. loop through modelList:
-  - if in gpu, leave it
-  - else put items in cpu_to_gpu
-  - else put items in cache_to_cpu
-  - else put remaining items in cloud_to_cpu
+   - if in gpu, leave it
+   - else put items in cpu_to_gpu
+   - else put items in cache_to_cpu
+   - else put remaining items in cloud_to_cpu
 4. GPU_SORT:
-  - merge lists cpu_to_gpu and gpu_delete sorted by score until gpu is full.
-    - **gpu_delete starts as a full gpu_data list, we delete from it as we find things that we want to keep.
-  - delete leftover data
+   - merge lists cpu_to_gpu and gpu_delete sorted by score until gpu is full.
+     - **gpu_delete starts as a full gpu_data list, we delete from it as we find things that we want to keep.
+   - delete leftover data
 5. CPU_SORT
-  - if in cpu_to_gpu, keep
-  - if not cached, keep
-  - at this point, if current cpu memory is over threshold, cache everything it can.
-  - merge cache_to_cpu, cloud_to_cpu, cpu_data sorted by score until we reach capcity
-    - **cpu_delete starts as cpu_data, we delete from it when find we want to keep an item.
-  - cpu_delete is now a list of everything not needed:
-    - already in gpu
-    - irrelevant to current request
-  - if cpu memory is under threshold:
-    - don't delete anything
+   - if in cpu_to_gpu, keep
+   - if not cached, keep
+   - at this point, if current cpu memory is over threshold, cache everything it can.
+   - merge cache_to_cpu, cloud_to_cpu, cpu_data sorted by score until we reach capcity
+     - **cpu_delete starts as cpu_data, we delete from it when find we want to keep an item.
+   - cpu_delete is now a list of everything not needed:
+     - already in gpu
+     - irrelevant to current request
+   - if cpu memory is under threshold:
+     - don't delete anything
 6. CACHE_SORT:
-  - if in cache_to_cpu, keep
-  - add everything from cpu_to_cache
-  - if there's room, add things that were in cache_data
-  - delete remainder
+   - if in cache_to_cpu, keep
+   - add everything from cpu_to_cache
+   - if there's room, add things that were in cache_data
+   - delete remainder
   
 ### model sorting:
 Items are sorted by how much potential screenspace they could take up. 
