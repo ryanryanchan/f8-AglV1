@@ -15,7 +15,9 @@ decide what data needs to be moved/deleted from within the machine, and what dat
 
 ### algorithm logic:
 - build startlist
+  - parse all instances into list of structs
 - create modelList
+  - get list of models from instances, calculate full score of each model
 - loop through modelList:
   - if in gpu, leave it
   - else put items in cpu_to_gpu
